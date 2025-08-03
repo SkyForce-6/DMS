@@ -32,3 +32,8 @@ commands:
     usage: /dms <action>
     permission: demon.dms
   sk:
+  meditate:
+    description: Begin or end meditation to reduce cooldowns
+    usage: /meditate
+    permission: demon.meditate
+    permission-message: You do not have permission to meditate.

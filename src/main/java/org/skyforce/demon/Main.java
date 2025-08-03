@@ -27,11 +27,13 @@ import org.skyforce.demon.breathings.windbreathing.WindBreathingAbility;
 import org.skyforce.demon.breathings.windbreathing.WindBreathingListener;
 import org.skyforce.demon.commands.BloodDemonArtCommand;
 import org.skyforce.demon.commands.DMSCommand;
+import org.skyforce.demon.commands.MeditateCommand;
 import org.skyforce.demon.player.PlayerDataListener;
 import org.skyforce.demon.player.PlayerDataManager;
 import org.skyforce.demon.trainer.CreateTrainerCommand;
 import org.skyforce.demon.trainer.RemoveTrainerCommand;
 import org.skyforce.demon.trainer.TrainerListener;
+import org.skyforce.demon.CooldownManager;
 
 public final class Main extends JavaPlugin {
 
@@ -51,12 +53,14 @@ public final class Main extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(logo);
 
         this.playerDataManager = new PlayerDataManager(this);
+        CooldownManager.init(playerDataManager);
         this.eventManager = new EventManager();
         this.getCommand("startevent").setExecutor(new StartEventCommand(eventManager));
         this.getCommand("removetrainer").setExecutor(new RemoveTrainerCommand());
         this.getCommand("createtrainer").setExecutor(new CreateTrainerCommand(this));
         getCommand("dms").setExecutor(new DMSCommand(playerDataManager));
         getCommand("sk").setExecutor(new BloodDemonArtCommand(this));
+        getCommand("meditate").setExecutor(new MeditateCommand(playerDataManager));
 
         getServer().getPluginManager().registerEvents(new EventWoolListener(eventManager), this);
         getServer().getPluginManager().registerEvents(new TrainerListener(playerDataManager), this);

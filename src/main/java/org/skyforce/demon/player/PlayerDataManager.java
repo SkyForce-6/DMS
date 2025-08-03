@@ -88,6 +88,9 @@ public class PlayerDataManager {
 
         profile.setNezuko(config.getBoolean("nezuko", false));
 
+        profile.setMeditationLevel(config.getInt("meditation_level", 1));
+        profile.setMeditationTime(config.getLong("meditation_time", 0));
+
         // Load techniques
         Set<String> techniques = new HashSet<>(config.getStringList("techniques"));
         for (String t : techniques) {
@@ -114,6 +117,8 @@ public class PlayerDataManager {
         }
 
         config.set("nezuko", profile.isNezuko());
+        config.set("meditation_level", profile.getMeditationLevel());
+        config.set("meditation_time", profile.getMeditationTime());
 
         // Save techniques
         Set<String> techs = new HashSet<>();
