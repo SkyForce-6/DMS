@@ -1,0 +1,34 @@
+name: DMS
+version: '1.0'
+main: org.skyforce.demon.Main
+api-version: '1.21'
+commands:
+  createtrainer:
+    description: Create a new trainer
+    usage: /createtrainer <name>
+    permission: demon.createtrainer
+    permission-message: You do not have permission to create a trainer.
+  removetrainer:
+    description: Remove an existing trainer
+    usage: /removetrainer <name>
+    permission: demon.removetrainer
+    permission-message: You do not have permission to remove a trainer.
+  startevent:
+    description: Start an event and teleport all participants
+    usage: /startevent
+    permission: demon.startevent
+    permission-message: You do not have permission to start an event.
+  ironaxt:
+    description: Gives you an iron axe with Custom Model Data 1001
+    usage: /ironaxt
+    permission: demon.ironaxt
+    permission-message: You do not have permission for this command.
+  bda:
+    description: Aktiviere eine Blood Demon Art
+    usage: /bda <art>
+    permission: demonslayer.bda
+  dms:
+    description: Development command for Demon Slayer
+    usage: /dms <action>
+    permission: demon.dms
+  sk:

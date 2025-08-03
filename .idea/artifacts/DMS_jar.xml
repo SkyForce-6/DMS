@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DMS:jar">
+    <output-path>$USER_HOME$/Desktop/welteng/plugins</output-path>
+    <root id="archive" name="DMS.jar">
+      <element id="module-output" name="Demon" />
+    </root>
+  </artifact>
+</component>
