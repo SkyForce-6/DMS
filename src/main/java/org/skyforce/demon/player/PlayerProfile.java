@@ -10,6 +10,8 @@ public class PlayerProfile {
     private DemonType demonType;
     private boolean nezuko;
     private Set<TechniqueType> learnedTechniques;
+    private int meditationLevel;
+    private long meditationTime;
 
     public PlayerProfile(UUID uuid) {
         this.uuid = uuid;
@@ -17,6 +19,8 @@ public class PlayerProfile {
         this.demonType = null;
         this.nezuko = false;
         this.learnedTechniques = new HashSet<>();
+        this.meditationLevel = 1;
+        this.meditationTime = 0L;
     }
 
     public UUID getUuid() {
@@ -66,6 +70,30 @@ public class PlayerProfile {
 
     public boolean hasFlameBreathing() {
         return knowsTechnique(TechniqueType.FLAME_BREATHING);
+    }
+
+    public int getMeditationLevel() {
+        return meditationLevel;
+    }
+
+    public void setMeditationLevel(int meditationLevel) {
+        this.meditationLevel = meditationLevel;
+    }
+
+    public long getMeditationTime() {
+        return meditationTime;
+    }
+
+    public void setMeditationTime(long meditationTime) {
+        this.meditationTime = meditationTime;
+    }
+
+    public void addMeditationTime(long seconds) {
+        this.meditationTime += seconds;
+        while (meditationLevel < 10 && this.meditationTime >= 600) {
+            this.meditationTime -= 600;
+            this.meditationLevel++;
+        }
     }
 
     public boolean isDemon() {

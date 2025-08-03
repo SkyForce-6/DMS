@@ -10,6 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.skyforce.demon.Main;
+import org.skyforce.demon.CooldownManager;
 
 import java.util.*;
 
@@ -20,12 +21,23 @@ public class MistBreathingAbility {
         this.player = player;
     }
 
+    private boolean tryUse(String key, int baseCooldown) {
+        if (CooldownManager.isOnCooldown(player, key)) {
+            long remaining = CooldownManager.getRemaining(player, key);
+            player.sendMessage("§cDiese Technik ist noch " + remaining + "s im Cooldown.");
+            return false;
+        }
+        CooldownManager.addCooldown(player, key, baseCooldown);
+        return true;
+    }
+
     public void useAbility() {
         // TODO: Implement the actual Mist Breathing ability effect
         player.sendMessage("You use Mist Breathing! (Effect not implemented yet)");
     }
 
     public void useFirstForm() {
+        if (!tryUse("FirstForm", 8)) return;
         player.sendMessage("§7☁ §b壱ノ型: 垂天遠霞 §7(First Form: Low Clouds, Distant Haze)");
 
         World world = player.getWorld();
@@ -82,7 +94,6 @@ public class MistBreathingAbility {
             }
         }
 
-        addCooldown(player, "FirstForm", 8);
     }
 
     /**
@@ -90,6 +101,7 @@ public class MistBreathingAbility {
      * Führt acht schnelle Nebelhiebe im Halbkreis vor dem Spieler aus.
      */
     public void useSecondForm() {
+        if (!tryUse("SecondForm", 6)) return;
         player.sendMessage("§7☁ §b弐ノ型: 八重霞 §7(Second Form: Eight-Layered Mist)");
 
         World world = player.getWorld();
@@ -139,7 +151,6 @@ public class MistBreathingAbility {
             }
         }
 
-        addCooldown(player, "SecondForm", 6);
     }
 
     Random random = new Random();
@@ -148,6 +159,7 @@ public class MistBreathingAbility {
      * A rising spiral of mist that follows the user's line of sight
      */
     public void useThirdForm() {
+        if (!tryUse("ThirdForm", 8)) return;
         player.sendMessage("§7☁ §b参ノ型: 霞散の飛沫 §7(Third Form: Scattering Mist Splash)");
 
         World world = player.getWorld();
@@ -259,8 +271,6 @@ public class MistBreathingAbility {
             }
         };
         spiralAnimation.runTaskTimer(Main.getPlugin(Main.class), 0L, 1L);
-
-        addCooldown(player, "ThirdForm", 8);
     }
 
     /**
@@ -268,6 +278,7 @@ public class MistBreathingAbility {
      * A swift dash attack with multiple slashes that appear like flowing mist
      */
     public void useFourthForm() {
+        if (!tryUse("FourthForm", 10)) return;
         player.sendMessage("§7☁ §b肆ノ型 移流斬 §7(Fourth Form: Shifting Flow Slash)");
 
         World world = player.getWorld();
@@ -387,13 +398,13 @@ public class MistBreathingAbility {
         // Apply speed effect to player during dash
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 15, 2, false, false));
 
-        addCooldown(player, "FourthForm", 10);
     }
     /**
      * Fifth Form: Sea of Clouds and Haze (伍ノ型 霞雲の海)
      * Creates a spherical sea of mist with omnidirectional slashes
      */
     public void useFifthForm() {
+        if (!tryUse("FifthForm", 15)) return;
         player.sendMessage("§7☁ §b伍ノ型 霞雲の海 §7(Fifth Form: Sea of Clouds and Haze)");
 
         World world = player.getWorld();
@@ -526,8 +537,6 @@ public class MistBreathingAbility {
         // Apply effects to player
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 2, false, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 80, 1, false, false));
-
-        addCooldown(player, "FifthForm", 15);
     }
 
     /**
@@ -535,6 +544,7 @@ public class MistBreathingAbility {
      * Rising spiral attack with multiple moon-shaped slashes
      */
     public void useSixthForm() {
+        if (!tryUse("SixthForm", 15)) return;
         player.sendMessage("§7☁ §b陸ノ型 月の霞消 §7(Sixth Form: Lunar Dispersing Mist)");
 
         World world = player.getWorld();
@@ -664,8 +674,6 @@ public class MistBreathingAbility {
         // Apply effects
         player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 40, 1, false, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 60, 0, false, false));
-
-        addCooldown(player, "SixthForm", 15);
     }
 
     /**
@@ -673,6 +681,7 @@ public class MistBreathingAbility {
      * Muichiro's personal technique using tempo changes and mist illusions
      */
     public void useSeventhForm() {
+        if (!tryUse("SeventhForm", 20)) return;
         player.sendMessage("§7☁ §b漆ノ型 朧 §7(Seventh Form: Obscuring Clouds)");
 
         World world = player.getWorld();
@@ -807,13 +816,6 @@ public class MistBreathingAbility {
             }
         }.runTaskTimer(Main.getPlugin(Main.class), 0L, 1L);
 
-        addCooldown(player, "SeventhForm", 20);
-    }
-
-
-    private void addCooldown(Player player, String ability, int seconds) {
-        // Implementation of cooldown system
-        // You'll need to implement this based on your plugin's cooldown system
     }
 
     private Vector rotateAroundY(Vector v, double angle) {
